@@ -9,16 +9,15 @@ Author: Authors.R: c(person("Zure", "Marina", role = c("aut", "cre"),
 Description: oligo4fun lets you diagnose if you should use all codon positions or 
     remove the 3rd position before oligotyping analysis. 
 Depends:
-    R (>= 3.1)
+    R (>= 3.1),
+    ape,
+    ggplot2,
+    tidyr
 Imports:
     spider,
     dplyr,
     plyr,
     BatchJobs
-Depends:
-    ape,
-    ggplot2,
-    tidyr
 License: GPL-3
 LazyData: true
 RoxygenNote: 5.0.1
