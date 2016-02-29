@@ -1,8 +1,8 @@
 
 #' \emph{Rhodopirellula} sp. alignemnts used for Zure et al., 2016
 #'
-#' A dataset containing the aligned reads for the study described in 
-#'  Zure et al., 2016. The variables are as follows:
+#' A dataset containing the aligned \emph{acsA} gene reads from \emph{Rhodopirellula} species used
+#' in the study described in Zure et al., 2016. The variables are as follows:
 #'
 #' @references Zure, M., Fernandez-Guerra, A., Munn C. and Harder, J. (2016). High resolution distribution of 
 #'  closely related \emph{Rhodopirellula} species in European coastal sediments. Submitted.
@@ -13,7 +13,7 @@
 #' Entropy values for each position of the alignment used for Zure et al., 2016
 #'
 #' A dataset containing the entropy values for each 483 nucleotides contained in the 
-#'  alignemnt. This is a raw dataframe containing the results of running \href{https://github.com/meren/oligotyping}{entropy-analysis} 
+#' \emph{acsA} gene alignment from \emph{Rhodopirellula} species. This is a raw dataframe containing the results of running \href{https://github.com/meren/oligotyping}{entropy-analysis} 
 #' command from oligotyping package.
 #'
 #' @references Eren, A. M., Morrison, H. G., Lescault, P. J., Reveillaud, J., Vineis, J. H., & Sogin, M. L. (2015). 
