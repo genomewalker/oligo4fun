@@ -5,6 +5,9 @@
 #' @param process a logical indicating whether to process the entropy data; defaults to TRUE so 
 #' @return a ggplot2 object with  
 #'
+#' @references Eren, A. M., Maignien, L., Sul, W. J., Murphy, L. G., Grim, S. L., Morrison, H. G., 
+#' and Sogin, M. L. (2013). Oligotyping: Differentiating between closely related microbial taxa 
+#' using 16S rRNA gene data. Methods Ecol Evol. 4(12)
 #'
 #' @references Eren, A. M., Morrison, H. G., Lescault, P. J., Reveillaud, J., Vineis, J. H., & Sogin, M. L. (2015). 
 #' Minimum entropy decomposition: Unsupervised oligotyping for sensitive partitioning of high-throughput marker gene 
