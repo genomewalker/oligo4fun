@@ -1,6 +1,6 @@
 # Pre-oligotyping diagnostics for functional genes
 
-oligo4fun is an R package that lets you diagnose your functional genes alignments before oligotyping or MED. Check the [project website](http://genomewalker.github.io/oligo4fun) for more information.
+**oligo4fun** is an R package for diagnosing functional gene alignments before oligotyping or [MED](http://merenlab.org/projects/med/). Check the [project website](http://genomewalker.github.io/oligo4fun) for more detailed  information and tutorials.
 
 # Installation
 You will need to install [devtools](https://github.com/hadley/devtools)
@@ -8,14 +8,14 @@ You will need to install [devtools](https://github.com/hadley/devtools)
 ```{r}
 install.package("devtools")
 ```
-Once **devtools** package is installed load the library:
+Once **devtools** package is installed, load the library:
 ```{r}
 library(devtools)
 ```
-And we will be ready to install oligo4fun from the github repository:
+Now install oligo4fun directly from the github repository:
 ```{r}
 install_github("genomewalker/oligo4fun")
 ```
 
 # Tutorial
-A detailed tutorial can be found [here](http://genomewalker.github.io/oligo4fun/tutorial/oligo4fun.html)
+A detailed tutorial can be found [here](http://genomewalker.github.io/oligo4fun/tutorial/oligo4fun.html).
