@@ -21,7 +21,7 @@ write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
     if (no3rd){
       file_name <- paste(dir,"/saturation_test_alignment_no3rd_", date_analysis, ".fasta",sep = ""); 
       write.dna(data$aln_no_3rd, file = file_name, format = "fasta")     
-      cat("Alignmet(s) written to ", filename, "\n")
+      cat("Alignmet(s) written to ", file_name, "\n")
     }else{
       write_alns <- lapply(1:length(data$seed), function(x){
         file_name <- paste(dir,"/saturation_test_alignment_", x, "_seed", data$seed[[x]],"_", date_analysis, ".fasta",sep = ""); 
