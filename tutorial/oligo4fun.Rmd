@@ -9,7 +9,7 @@ output:
 
 **How to decide if we should keep the third codon position if we want to perform an oligotyping analysis on functional genes**
 
-In the following examples, data which are loaded togther with the library, are used to perform a Minimum Entropy Decomposition ([MED](http://merenlab.org/projects/med/)) analysis, the unsupervised flavour of [oligotyping](http://merenlab.org/projects/oligotyping/).
+In the following example, we use the _acsA_ (acetyl-coenzyme A synthetase) gene data from _Rhodopirellula_ species used in Zure et al. 2016, which is loaded together with the library and used to perform a Minimum Entropy Decomposition ([MED](http://merenlab.org/projects/med/)) analysis, the unsupervised flavour of [oligotyping](http://merenlab.org/projects/oligotyping/).
 
 First we load the package (including example data):
 ```{r}
@@ -24,7 +24,7 @@ and then at the MED input alignment file:
 ```{r}
 aln
 ```
-One can read any fasta file using read.dna function from [ape package](https://cran.r-project.org/web/packages/ape/index.html):
+One can read any fasta file using "read.dna" function from [ape](https://cran.r-project.org/web/packages/ape/index.html) package:
 
 ```{r, eval=FALSE}
 aln <- read.dna(file=file, format = "fasta", as.character=FALSE, skip=0)
@@ -41,7 +41,7 @@ that if we use this aligment as input for MED it could result in a possible over
 of the diversity. 
 
 The next step is about getting to know if the higher entropy values imply a real change in the aminoacid sequence
-or are silent substitution. We will use a saturation plot to explore the transitions and transversions ratio. As the NGS datasets that can be used for MED are really large, in this example we will pick 500 random sequences for the analysis (we recommend to use 5000 sequences aprox). For the distance calculation we use the _Kimura's 2-parameters distance_ (K80). We set all = FALSE because we only want to focus on the 3rd codon position, we can calculate the ratio for all codon positions with ALL = TRUE.
+or are silent substitution. We will use a saturation plot to explore the transitions and transversions ratio. As the NGS datasets that can be used for MED are really large, in this example we will pick 500 random sequences for the analysis (we recommend to use >5000 sequences). For the distance calculation we use the _Kimura's 2-parameters distance_ (K80). We set all = FALSE because we only want to focus on the 3rd codon position, we can calculate the ratio for all codon positions with ALL = TRUE.
 
 ```{r}
 saturation_plot <- plot_saturation(aln, nseqs = 500, model = "K80", all = FALSE )
@@ -117,3 +117,5 @@ write_saturation_alignments(random_saturation_plots, dir = "~")
 ```
 
 After all these steps we can use the exported alignment for the [MED](http://merenlab.org/projects/med/) analysis.
+
+For any questions realted to **oligo4fun** open a new issue [here](https://github.com/genomewalker/oligo4fun/issues)
