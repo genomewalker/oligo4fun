@@ -8,7 +8,7 @@ You will need to install [devtools](https://github.com/hadley/devtools)
 ```{r}
 install.package("devtools")
 ```
-Once devtools package is installed we load the library:
+Once **devtools** package is installed load the library:
 ```{r}
 library(devtools)
 ```
