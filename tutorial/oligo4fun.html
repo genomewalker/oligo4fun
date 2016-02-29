@@ -150,8 +150,7 @@ img {
 ## More than 1 million nucleotides: not printing base composition</code></pre>
 <p>But using only 500 or 5000 sequences is not enough to be sure that there is no substitution saturation in our alignment. In this case one can use the function <strong>plot_saturation_n</strong> to perform n random subsamplings of the main alignment file. An example using the sequential version with performing 10 random subsamplings of 500 sequences:</p>
 <pre class="r"><code>random_saturation_plots &lt;- plot_saturation_n(aln, rep = 10, nseqs = 500, model = &quot;K80&quot;, parallel = FALSE, all = FALSE)</pre>
-<pre><code>                                                                              
-  |================================================================================| 100%</code></pre>
+<pre><code>|================================================================================| 100%</code></pre>
 <p>For a real world analysis we would perform at least 100 random subsamplings of &gt;5000 sequences. The parallel version uses <a href="BatchJobs"><a href="https://github.com/tudo-r/BatchJobs" class="uri">https://github.com/tudo-r/BatchJobs</a></a> to distribute the different random subsamplings over multiple cores or a computer cluster. An example using the different cores of a computer:</p>
 <pre class="r"><code>random_saturation_plots &lt;- plot_saturation_n(aln, rep = 10, nseqs = 500, model = &quot;K80&quot;, parallel = TRUE, all = FALSE, conf_file = &quot;~/.BatchJobs.R&quot;, reg_id = &quot;rhodo&quot;, reg_dir = &quot;~/rhodo_dir&quot;)</code></pre>
 <pre><code>## Creating dir: ~/rhodo_dir</code></pre>
