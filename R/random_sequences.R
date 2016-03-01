@@ -10,7 +10,7 @@
 #' 
 #' @examples rand_seqs <- random_sequences(aln)
 #' @export
-random_sequences <-  function(aln = aln, nseqs = 1000, seed = 0, verbose = verbose, ...){
+random_sequences <-  function(aln = aln, nseqs = 1000, seed = 0, verbose = FALSE, ...){
   aln_num_seqs <- dim(aln)[1]
   
   if (nseqs > aln_num_seqs){
@@ -32,8 +32,8 @@ random_sequences <-  function(aln = aln, nseqs = 1000, seed = 0, verbose = verbo
   rand_seqs <- aln[rand_seqs_ids,]
   #cat("Number of random sequences extracted:", dim(rand_seqs)[1], "\n")
   results <- list(
-    seed=seed,
-    aln=rand_seqs
+    seed = seed,
+    aln = rand_seqs
   )
   class(results)<-"oligodiag"
   return(results)

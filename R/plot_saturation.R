@@ -4,6 +4,8 @@
 #' @param seed a value for the random number generator. This will allow you to repeat the analysis
 #' @param model a character string specifying the evolutionary model to be used by \code{\link[ape]{dist.dna}}
 #' @param all a logical indicating whether to use all codon positions; defaults to FALSE so only the third codon position is used.
+#' @param save_alns a logical indicating whether to save the alignments
+#' @param dir path where the alignment should be saved
 #' @param verbose a logical indicating whether to show in screen the progress; defaults to TRUE.
 #' @details Usually oligotyping datasets are very large and perform a full analysis would be computationally really expensive. We
 #' recommend to use up to 5000 random sequences in a desktop computer. You can calculate multiple saturation plots and its associated 
@@ -13,7 +15,7 @@
 #' \describe{
 #'  \item{plot}{a ggplot object containing the saturation plot}
 #'  \item{seed}{the seed used for picking the random sequences}
-#'  \item{aln}{a matrix of the random selected sequences stored in binary format}
+#'  \item{aln_no_3rd}{a DNAbin object containing the original alignment without the 3rd codon}
 #'  \item{stats}{mean and standard deviation of transitions and transversions}
 #'  \item{all_codons}{logical if all codon positions have been used}
 #'  \item{saturation}{whether your alignemnt possible presents saturation}
@@ -22,7 +24,16 @@
 #' 
 #' @examples saturation_plot <- plot_saturation(aln, nseqs = 1000, all = FALSE)
 #' @export
-plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, seed = 0, rsamp = FALSE, alns = FALSE, ...){
+plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
+                          seed = 0, save_aln = FALSE, dir = NULL, ...){
+  if (is.null(dir)){
+    dir <- getwd()
+  }
+  
+  if (!exists(".rsamp")){
+    .rsamp <- FALSE
+  }
+  
   aln_num_seqs <- dim(aln)[1]
   if (aln_num_seqs <= 1000) {
     rand_seqs <- aln
@@ -107,37 +118,48 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
     aln_no_3rd <- NULL
   }
   
-  if (rsamp){
+  if (.rsamp){
     results<-list(
       plot = p,
-      if (alns){
-        aln = rand_seqs$aln
-      },
-      seed = rand_seqs$seed,
-      stats = ti_tv_stats,
-      all_codons = all,
-      ti_tv = dplyr::tbl_df(ti_tv),
-      saturation = ifelse(saturation, "Results suggests that there is saturation.", "Results suggests that there is no saturation.")    )
-  }else{
-    results<-list(
-      plot = p,
-      if (alns){
-        aln = rand_seqs$aln
-      },
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
       ti_tv = dplyr::tbl_df(ti_tv),
       saturation = ifelse(saturation, "Results suggests that there is saturation.", "Results suggests that there is no saturation."),
-      aln_no_3rd = aln_no_3rd
+      nseqs = nseqs
+    )
+  }else{
+    results<-list(
+      plot = p,
+      seed = rand_seqs$seed,
+      stats = ti_tv_stats,
+      all_codons = all,
+      ti_tv = dplyr::tbl_df(ti_tv),
+      saturation = ifelse(saturation, "Results suggests that there is saturation.", "Results suggests that there is no saturation."),
+      aln_no_3rd = aln_no_3rd,
+      nseqs = nseqs,
+      aln = aln
     )
   }
-  if (saturation & !(rsamp)){
-    class(results$aln_no_3rd) <- "DNAbin"
-  }
-  if(alns){
+  
+  
+  if(!(.rsamp)){
     class(results$aln)<-"DNAbin"
   }
-  class(results)<-"oligdiag"
+  
+  if (saturation & !(.rsamp)){
+    class(results$aln_no_3rd) <- "DNAbin"
+  }
+  
+  date_analysis <-  format(Sys.time(), "%m%d%Y%H%M")
+  if (save_aln){ 
+    file_name <- paste(dir,"/saturation_test_alignment_seed", rand_seqs$seed, "_", date_analysis, ".fasta",sep = "")
+    ape::write.dna(rand_seqs$aln, file = file_name, format = "fasta")
+    if (verbose){
+      cat("Alignment saved to ", dir, "\n")
+    }
+  }
+  
+  class(results)<-"oligodiag"
   return(results)
 }
