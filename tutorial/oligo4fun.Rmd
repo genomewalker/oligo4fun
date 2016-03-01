@@ -20,12 +20,13 @@ Let's have a look at the loaded data, first at the entropy file:
 ```{r}
 entropy
 ```
+
 and then at the MED input alignment file:
 ```{r}
 aln
 ```
-One can read any fasta file using "read.dna" function from [ape](https://cran.r-project.org/web/packages/ape/index.html) package:
 
+One can read any fasta file using "read.dna" function from [ape](https://cran.r-project.org/web/packages/ape/index.html) package:
 ```{r, eval=FALSE}
 aln <- read.dna(file=file, format = "fasta", as.character=FALSE, skip=0)
 ```
@@ -42,7 +43,6 @@ of the diversity.
 
 The next step is about getting to know if the higher entropy values imply a real change in the aminoacid sequence
 or are silent substitution. We will use a saturation plot to explore the transitions and transversions ratio. As the NGS datasets that can be used for MED are really large, in this example we will pick 500 random sequences for the analysis (we recommend to use >5000 sequences). For the distance calculation we use the _Kimura's 2-parameters distance_ (K80). We set **all = FALSE** because we only want to focus on the 3rd codon position, we can calculate the ratio for all codon positions with **all = TRUE**.
-
 ```{r}
 saturation_plot <- plot_saturation(aln, nseqs = 500, model = "K80", all = FALSE )
 ```
@@ -62,27 +62,26 @@ Or get the alignment without the 3rd codon position which can be used for the ME
 saturation_plot$aln_no_3rd
 ```
 
-But using only 500 or 5000 sequences is not enough to be sure that there is no substitution saturation in our alignment. In this case one can use the function **plot_saturation_n** to perform n random subsamplings of the main alignment file. An example using the sequential version with performing 10 random subsamplings of 500 sequences:
-```{r, echo = FALSE}
+But using only 500 or 5000 sequences is not enough to be sure that there is no substitution saturation in our alignment. In this case one can use the function **plot_saturation_n** to perform n random subsamplings of the main alignment file. An example using the sequential version performing 10 random subsamplings of 500 sequences:
+```{r}
 random_saturation_plots <- plot_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = FALSE, all = FALSE)
 ```
 
-For a real world analysis we would perform at least 100 random subsamplings of >5000 sequences. The parallel version uses [https://github.com/tudo-r/BatchJobs](BatchJobs) to distribute the different random subsamplings over multiple cores or a computer cluster. An example using the different cores of a computer:
-
+For a real world analysis we would perform at least 100 random subsamplings of \>5000 sequences. The parallel version uses [BatchJobs](https://github.com/tudo-r/BatchJobs) to distribute the different random subsamplings over multiple cores or a computer cluster. An example using the different cores of a computer:
 ```{r}
 random_saturation_plots <- plot_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = TRUE, all = FALSE, conf_file = "~/.BatchJobs.R", reg_id = "rhodo", reg_dir = "~/rhodo_dir")
 ```
 
 > For reproducibility purposes, all seeds used by **plot_saturation** and **plot_saturation_n** are stored in the object returned under **seed**.
 
-The contents of the .BatchJobs.R file:
+The contents of the **.BatchJobs.R** file:
 ```{r, eval = FALSE}
 cluster.functions = makeClusterFunctionsMulticore(ncpus = max(getOption("mc.cores", parallel::detectCores()) - 1L, 1L))
 staged.queries = TRUE
 debug = FALSE
 ```
 
-You can find examples for other queue managers [here](https://github.com/tudo-r/BatchJobs/tree/master/examples/). For example, if our cluster uses SGE, our **.tmpl** file should be similar to this [here](https://github.com/tudo-r/BatchJobs/blob/master/examples/cfSGE/simple.tmpl) and the .BatchJobs.R file should contain:
+You can find examples for other queue managers [here](https://github.com/tudo-r/BatchJobs/tree/master/examples/). For example, if our cluster uses SGE, our **.tmpl** file should be similar to this [here](https://github.com/tudo-r/BatchJobs/blob/master/examples/cfSGE/simple.tmpl) and the **.BatchJobs.R** file should contain:
 ```{r, eval = FALSE}
 cluster.functions = makeClusterFunctionsSGE("simple.tmpl")
 staged.queries = TRUE
