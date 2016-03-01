@@ -111,8 +111,8 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
     results<-list(
       plot = p,
       if (alns){
-        aln = rand_seqs$aln,
-      }
+        aln = rand_seqs$aln
+      },
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
@@ -122,8 +122,8 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
     results<-list(
       plot = p,
       if (alns){
-        aln = rand_seqs$aln,
-      }
+        aln = rand_seqs$aln
+      },
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
