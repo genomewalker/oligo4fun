@@ -59,7 +59,7 @@ plot_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80", p
     
   }else{
     plot_runs <- plyr::llply(1:rep, plot_saturation, ..., aln = aln, nseqs = nseqs, model = model, all = all, verbose = FALSE,
-                             seed = 0, rsamp = TRUE, .parallel = F, .progress = plyr::progress_text(width = 80))
+                             seed = 0, rsamp = TRUE, alns = FALSE, .parallel = F, .progress = plyr::progress_text(width = 80))
   }
   
   results$combined_stats <- dplyr::rbind_all(lapply(plot_runs, function(x) dplyr::rbind_list(x[["stats"]])))

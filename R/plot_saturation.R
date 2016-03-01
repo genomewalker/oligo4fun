@@ -22,7 +22,7 @@
 #' 
 #' @examples saturation_plot <- plot_saturation(aln, nseqs = 1000, all = FALSE)
 #' @export
-plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, seed = 0, rsamp = FALSE, ...){
+plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, seed = 0, rsamp = FALSE, alns = FALSE, ...){
   aln_num_seqs <- dim(aln)[1]
   if (aln_num_seqs <= 1000) {
     rand_seqs <- aln
@@ -110,7 +110,9 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
   if (rsamp){
     results<-list(
       plot = p,
-      aln = rand_seqs$aln,
+      if (alns){
+        aln = rand_seqs$aln,
+      }
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
@@ -119,7 +121,9 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
   }else{
     results<-list(
       plot = p,
-      aln = rand_seqs$aln,
+      if (alns){
+        aln = rand_seqs$aln,
+      }
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
@@ -131,7 +135,9 @@ plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, v
   if (saturation & !(rsamp)){
     class(results$aln_no_3rd) <- "DNAbin"
   }
-  class(results$aln)<-"DNAbin"
+  if(alns){
+    class(results$aln)<-"DNAbin"
+  }
   class(results)<-"oligdiag"
   return(results)
 }
