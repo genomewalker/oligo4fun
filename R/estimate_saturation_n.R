@@ -68,12 +68,12 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
     id  <- BatchJobs::batchMap(reg, fun = fun, more.args = function_args, iterations)
     estimate_submission <- BatchJobs::submitJobs(reg, resources=job_res)
     estimate_run <- BatchJobs::waitForJobs(reg, id)
-    #estimate_runs <- reduceResultsList(reg)
-    cat("Gathering results...\n")
-    estimate_runs <- plyr::llply(1:rep, function(x, ...){
-      res <- BatchJobs::loadResult(reg = reg , id = x)
-    }, reg, .parallel = FALSE, .progress = plyr::progress_text(width = 80, char = "+"))
-    
+    estimate_runs <- reduceResultsList(reg)
+#     cat("Gathering results...\n")
+#     estimate_runs <- plyr::llply(1:rep, function(x, ...){
+#       res <- BatchJobs::loadResult(reg = reg , id = x)
+#     }, reg, .parallel = FALSE, .progress = plyr::progress_text(width = 80, char = "+"))
+#     
     showStatus(reg)
     if (!(keep_reg)){
       removeRegistry(reg, ask = "no")
