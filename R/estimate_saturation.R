@@ -27,7 +27,7 @@
 #' @examples saturation_plot <- estimate_saturation(aln, nseqs = 1000, all = FALSE)
 #' @export
 estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
-                          seed = 0, save_aln = FALSE, dir = NULL, ...){
+                              seed = 0, save_aln = FALSE, dir = NULL, ...){
   if (is.null(dir)){
     dir <- getwd()
   }
@@ -162,5 +162,9 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
   }
   
   class(results)<-"oligodiag"
+  if (.rsamp){
+    rm(aln)
+    gc()
+  }
   return(results)
 }
