@@ -34,8 +34,8 @@
 #' @examples saturation_plots <- estimate_saturation_n(aln, nseqs = 1000, rep = 100, parallel = T, reg_id = "test_id", reg_dir = "test-dir", conf_file = ".BatchJobs.R")
 #' @export
 estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80", parallel = FALSE,
-                            all = FALSE, save_aln = FALSE, dir = NULL, reg_id = NULL, reg_dir = NULL, conf_file = NULL, 
-                            job_res = list(), ...){
+                                all = FALSE, save_aln = FALSE, dir = NULL, reg_id = NULL, reg_dir = NULL, conf_file = NULL, 
+                                job_res = list(), keep_reg = TRUE, ...){
   
   if (rep < 2){
     stop("Please use estimate_saturation for only one random subsampling", call. = FALSE)
@@ -50,7 +50,7 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
     if ((is.null(conf_file)) || (is.null(reg_dir)) || (is.null(reg_id))){
       stop("Please add the configuration file and registry values requiered for BatchJobs" , call. = FALSE)
     }
-        
+    
     function_args <- list()
     fun <- estimate_saturation
     function_args <- list(aln = aln, nseqs = nseqs, model = model, all = all, 
@@ -72,11 +72,12 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
     cat("Gathering results...\n")
     estimate_runs <- plyr::llply(1:rep, function(x, ...){
       res <- BatchJobs::loadResult(reg = reg , id = x)
-      }, reg, .parallel = FALSE, .progress = plyr::progress_text(width = 80, char = "+"))
+    }, reg, .parallel = FALSE, .progress = plyr::progress_text(width = 80, char = "+"))
     
     showStatus(reg)
-    removeRegistry(reg, ask = "no")
-    
+    if (!(keep_reg)){
+      removeRegistry(reg, ask = "no")
+    }
     if (!estimate_run) {
       stop('Error in batch jobs', call. = FALSE)
     }
@@ -84,20 +85,20 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
   }else{
     
     estimate_runs <- plyr::llply(1:rep, estimate_saturation, aln = aln, nseqs = nseqs, model = model, all = all, verbose = FALSE,
-                             seed = 0, save_aln = save_aln, dir =  dir, .parallel = FALSE, 
-                             .progress = plyr::progress_text(width = 80, char = "+"), .rsamp = TRUE)
+                                 seed = 0, save_aln = save_aln, dir =  dir, .parallel = FALSE, 
+                                 .progress = plyr::progress_text(width = 80, char = "+"), .rsamp = TRUE)
   }
   
   results <-list(
-  combined_stats = dplyr::rbind_all(lapply(estimate_runs, function(x) dplyr::rbind_list(x[["stats"]]))),
-  raw = estimate_runs,
-  plot = lapply(estimate_runs, function(x) x[["plot"]]),
-  seed = lapply(estimate_runs, function(x) x[["seed"]]),
-  saturation = lapply(estimate_runs, function(x) x[["saturation"]]),
-  aln_no_3rd = remove_3rd_codon(aln),
-  repetitions = rep,
-  aln = aln,
-  nseqs = nseqs
+    combined_stats = dplyr::rbind_all(lapply(estimate_runs, function(x) dplyr::rbind_list(x[["stats"]]))),
+    raw = estimate_runs,
+    plot = lapply(estimate_runs, function(x) x[["plot"]]),
+    seed = lapply(estimate_runs, function(x) x[["seed"]]),
+    saturation = lapply(estimate_runs, function(x) x[["saturation"]]),
+    aln_no_3rd = remove_3rd_codon(aln),
+    repetitions = rep,
+    aln = aln,
+    nseqs = nseqs
   )
   class(results)<-"oligodiag"
   class(results$aln)<-"DNAbin"
