@@ -159,7 +159,10 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
       cat("Alignment saved to ", dir, "\n")
     }
   }
-  
+  if (.rsamp){
+    rm(aln)
+    gc()
+  }
   class(results)<-"oligodiag"
   return(results)
 }
