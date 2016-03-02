@@ -44,36 +44,38 @@ of the diversity.
 The next step is about getting to know if the higher entropy values imply a real change in the aminoacid sequence
 or are silent substitution. We will use a saturation plot to explore the transitions and transversions ratio. As the NGS datasets that can be used for MED are really large, in this example we will pick 500 random sequences for the analysis (we recommend to use >5000 sequences). For the distance calculation we use the _Kimura's 2-parameters distance_ (K80). We set **all = FALSE** because we only want to focus on the 3rd codon position, we can calculate the ratio for all codon positions with **all = TRUE**.
 ```{r}
-saturation_plot <- plot_saturation(aln, nseqs = 500, model = "K80", all = FALSE )
+saturation_estimate <- estimate_saturation(aln, nseqs = 500, model = "K80", all = FALSE )
 ```
 
-We can visually inspect the plot:
+We can visually inspect the saturation plot:
 ```{r}
-saturation_plot$plot
+saturation_estimate$plot
 ```
 
 Get some statistics:
 ```{r}
-saturation_plot$stats
+saturation_estimate$stats
 ```
 
 Or get the alignment without the 3rd codon position which can be used for the MED analysis:
 ```{r}
-saturation_plot$aln_no_3rd
+saturation_estimate$aln_no_3rd
 ```
 
-But using only 500 or 5000 sequences is not enough to be sure that there is no substitution saturation in our alignment. In this case one can use the function **plot_saturation_n** to perform n random subsamplings of the main alignment file. An example using the sequential version performing 10 random subsamplings of 500 sequences:
+But using only 500 or 5000 sequences is not enough to be sure that there is no substitution saturation in our alignment. In this case one can use the function **estimate_saturation_n** to perform n random subsamplings of the main alignment file. An example using the sequential version performing 10 random subsamplings of 500 sequences:
 ```{r}
-random_saturation_plots <- plot_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = FALSE, all = FALSE)
+random_saturation_estimates <- estimate_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = FALSE, all = FALSE, save_alns = FALSE)
 ```
 
 For a real world analysis we would perform at least 100 random subsamplings of \>5000 sequences. The parallel version uses [BatchJobs](https://github.com/tudo-r/BatchJobs) to distribute the different random subsamplings over multiple cores or a computer cluster. An example using the different cores of a computer:
 ```{r}
-random_saturation_plots <- plot_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = TRUE, all = FALSE, conf_file = "~/.BatchJobs.R", reg_id = "rhodo", reg_dir = "~/rhodo_dir")
+random_saturation_estimates <- estimate_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = TRUE, all = FALSE, save_aln = FALSE, conf_file = "~/.BatchJobs.R", reg_id = "rhodo", reg_dir = "~/rhodo_dir")
 ```
 
-> For reproducibility purposes, all seeds used by **plot_saturation** and **plot_saturation_n** are stored in the object returned under **seed**.
+> For reproducibility purposes, all seeds used by **estimate_saturation** and **estimate_saturation_n** are stored in the object returned under **seed**.
 
+> We also recommend to set **save_alns = FALSE** as it can produce a large IO load when using a large number of iterations
+ 
 The contents of the **.BatchJobs.R** file:
 ```{r, eval = FALSE}
 cluster.functions = makeClusterFunctionsMulticore(ncpus = max(getOption("mc.cores", parallel::detectCores()) - 1L, 1L))
@@ -90,29 +92,29 @@ debug = FALSE
 
 Once we got the results, we can explore the returned object. We can explore the combined statistics:
 ```{r}
-random_saturation_plots$combined_stats
+random_saturation_estimates$combined_stats
 ```
 
 Or we can look at the distribution of the average values for transitions and transversion for all random subsamplings:
 ```{r}
-write_saturation_plot_density(random_saturation_plots, dir = "~", format = "pdf", show = TRUE)
+write_saturation_plot_density(random_saturation_estimates, dir = "~", format = "pdf", show = TRUE)
 ```
 
 This plot also suggests that there are more transitions than transversions so it would be recommendable to remove the 3rd codon position from the alignment.
 
 We can easily do this:
 ```{r}
-write_saturation_alignments(random_saturation_plots, dir = "~", no3rd = TRUE)
+write_saturation_alignments(random_saturation_estimates, dir = "~", no3rd = TRUE)
 ```
 
 We can save all plots on disk:
 ```{r}
-write_saturation_plots(random_saturation_plots, dir = "~", format = "pdf")
+write_saturation_plots(random_saturation_estimates, dir = "~", format = "pdf")
 ```
 
 And all random alignments used:
 ```{r}
-write_saturation_alignments(random_saturation_plots, dir = "~")
+write_saturation_alignments(random_saturation_estimates, dir = "~")
 ```
 
 After all these steps we can use the exported alignment for the [MED](http://merenlab.org/projects/med/) analysis.
