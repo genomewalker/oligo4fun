@@ -6,7 +6,7 @@
 #' @export
 write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
   if (!(is(data) == "oligodiag")){
-    stop("The object has incorrect class. Please run plot_saturation or plot_saturation_n to get the correct object class", call. = FALSE)
+    stop("The object has incorrect class. Please run estimate_saturation or estimate_saturation_n to get the correct object class", call. = FALSE)
   }
   
   if (is.null(dir)){
@@ -31,7 +31,7 @@ write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
       cat("Saving random alignments used for the saturation estimation\n")
       write_alns <- plyr::llply(1:length(data$seed), function(x){
         rand_aln <- random_sequences(aln = data$aln, seed = data$seed[[x]], nseqs = data$nseqs, verbose = FALSE)
-        file_name <- paste(dir,"/saturation_test_alignment_seed", data$seed[[x]],"_", date_analysis, ".fasta",sep = ""); 
+        file_name <- paste(dir,"/saturation_test_alignment_seed", data$seed[[x]],"_", x, '_', date_analysis, ".fasta",sep = ""); 
         write.dna(rand_aln$aln, file = file_name, format = "fasta")
       }, .parallel = F, .progress = plyr::progress_text(width = 80))
     }

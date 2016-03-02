@@ -8,7 +8,7 @@
 #' @export
 write_saturation_plot_density<-function(data, dir = NULL, format = "png", show = TRUE, ...){
   if (!(is(data) == "oligodiag")){
-    stop("The object has incorrect class. Please run plot_saturation or plot_saturation_n to get the correct object class", call. = FALSE)
+    stop("The object has incorrect class. Please run estimation_saturation or estimation_saturation_n to get the correct object class", call. = FALSE)
   }
   
   if (is.null(dir)){

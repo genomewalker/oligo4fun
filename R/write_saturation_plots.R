@@ -8,7 +8,7 @@
 #' @export
 write_saturation_plots<-function(data, dir = NULL, format = "png", ...){
   if (!(is(data) == "oligodiag")){
-    stop("The object has incorrect class. Please run plot_saturation or plot_saturation_n to get the correct object class", call. = FALSE)
+    stop("The object has incorrect class. Please run estimate_saturation or estimate_saturation_n to get the correct object class", call. = FALSE)
   }
   
   if (is.null(dir)){
@@ -20,7 +20,7 @@ write_saturation_plots<-function(data, dir = NULL, format = "png", ...){
   
   if (length(data$seed) > 1){
     write_plots <- lapply(1:length(data$seed), function(x){
-      file_name <- paste(dir, "/saturation_test_alignment_plot_", x, "_seed", data$seed[[x]],"_", date, ".", format, sep = "")    
+      file_name <- paste(dir, "/saturation_test_alignment_plot_seed", data$seed[[x]],"_",  x, "_", date, ".", format, sep = "")    
       .set_plot_format(format, file_name)
       print(data$plot[[x]])
       dev.off()

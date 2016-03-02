@@ -1,4 +1,4 @@
-#' Draw a saturation plot of the oligotyping input file
+#' Estimate the substitution saturation ratio for the oligotyping input file
 #' @param aln a matrix containing the DNA sequences; this must be of class "DNAbin" 
 #' @param nseqs a value for the number of sequences to pick
 #' @param seed a value for the random number generator. This will allow you to repeat the analysis
@@ -9,7 +9,7 @@
 #' @param verbose a logical indicating whether to show in screen the progress; defaults to TRUE.
 #' @details Usually oligotyping datasets are very large and perform a full analysis would be computationally really expensive. We
 #' recommend to use up to 5000 random sequences in a desktop computer. You can calculate multiple saturation plots and its associated 
-#' statistics using \code{\link[oligo4fun]{plot_saturation_n}} to get a better overview of your alignment.
+#' statistics using \code{\link[oligo4fun]{estimate_saturation_n}} to get a better overview of your alignment.
 #' 
 #' @return An object of class \dQuote{oligodiag} is a list containing at least the following components:  
 #' \describe{
@@ -19,20 +19,21 @@
 #'  \item{stats}{mean and standard deviation of transitions and transversions}
 #'  \item{all_codons}{logical if all codon positions have been used}
 #'  \item{saturation}{whether your alignemnt possible presents saturation}
+#'  \item{nseqs}{a value for the number of sequences to pick}
+#'  \item{aln}{a DNAbin object containing the original alignment}
 #' }
 #' 
 #' 
-#' @examples saturation_plot <- plot_saturation(aln, nseqs = 1000, all = FALSE)
+#' @examples saturation_plot <- estimate_saturation(aln, nseqs = 1000, all = FALSE)
 #' @export
-plot_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
+estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
                           seed = 0, save_aln = FALSE, dir = NULL, ...){
   if (is.null(dir)){
     dir <- getwd()
   }
   
-  if (!exists(".rsamp")){
-    .rsamp <- FALSE
-  }
+  args <- list(...)
+  .rsamp <- ifelse (".rsamp" %in% names(args), TRUE, FALSE)
   
   aln_num_seqs <- dim(aln)[1]
   if (aln_num_seqs <= 1000) {
