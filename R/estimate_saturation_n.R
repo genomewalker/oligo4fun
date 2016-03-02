@@ -14,10 +14,12 @@
 #' @param conf_file Location of the configuration file to load
 #' @param save_aln a logical whether to save the alignments used for the estimation
 #' @param dir path where the alignments should be saved
+#' @param keep_reg a logical wether to keep BatchJobs registry
 #' @details You can calculate multiple saturation plots and its associated statistics. The different
 #' random subsamplings can be easily distributed over multiple cores or in a computer cluster.
 #' We recommend to set \emph{save_aln = FALSE} and use \code{\link{write_saturation_alignments}} instead.
-#' Writing the alignments to the disk can generate a high IO load in the parallel mode.
+#' Writing the alignments to the disk can generate a high IO load in the parallel mode. Setting \emph{keep_reg = TRUE}
+#' will let you keep the BatchJob registry and explore the output files in case of failure.
 #' 
 #' @return An object of class \dQuote{oligodiag} is a list containing at least the following components:  
 #' \describe{
