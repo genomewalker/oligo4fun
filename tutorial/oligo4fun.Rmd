@@ -9,20 +9,30 @@ output:
 
 **How to decide if we should keep the third codon position if we want to perform an oligotyping analysis on functional genes**
 
-In the following example, we use the _acsA_ (acetyl-coenzyme A synthetase) gene data from _Rhodopirellula_ species used in Zure et al. 2016, which is loaded together with the library and used to perform a Minimum Entropy Decomposition ([MED](http://merenlab.org/projects/med/)) analysis, the unsupervised flavour of [oligotyping](http://merenlab.org/projects/oligotyping/).
+In the following example, we use the _acsA_ (acetyl-coenzyme A synthetase) gene data from _Rhodopirellula_ species used in Zure et al. 2016 used to perform a Minimum Entropy Decomposition ([MED](http://merenlab.org/projects/med/)) analysis, the unsupervised flavour of [oligotyping](http://merenlab.org/projects/oligotyping/).
 
-First we load the package (including example data):
+In case we don't have the package installed:
+
+```{r}
+install.packages("devtools")
+library(devtools)
+install_github("genomewalker/oligo4fun")
+```
+
+Then we load the package:
 ```{r}
 library(oligo4fun)
 ```
 
-Let's have a look at the loaded data, first at the entropy file:
+Let's have a look at the data, first at the entropy file:
 ```{r}
+data(entropy)
 entropy
 ```
 
 and then at the MED input alignment file:
 ```{r}
+data(aln)
 aln
 ```
 
@@ -69,7 +79,7 @@ random_saturation_estimates <- estimate_saturation_n(aln, rep = 10, nseqs = 500,
 
 For a real world analysis we would perform at least 100 random subsamplings of \>5000 sequences. The parallel version uses [BatchJobs](https://github.com/tudo-r/BatchJobs) to distribute the different random subsamplings over multiple cores or a computer cluster. An example using the different cores of a computer:
 ```{r}
-random_saturation_estimates <- estimate_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = TRUE, all = FALSE, save_aln = FALSE, conf_file = "~/.BatchJobs.R", reg_id = "rhodo", reg_dir = "~/rhodo_dir")
+random_saturation_estimates <- estimate_saturation_n(aln, rep = 10, nseqs = 500, model = "K80", parallel = TRUE, all = FALSE, save_aln = FALSE, conf_file = "~/.BatchJobs.R", reg_id = "rhodo", reg_dir = "~/rhodo_dir", keep_reg = FALSE)
 ```
 
 > For reproducibility purposes, all seeds used by **estimate_saturation** and **estimate_saturation_n** are stored in the object returned under **seed**.
