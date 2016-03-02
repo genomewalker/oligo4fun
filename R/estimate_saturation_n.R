@@ -52,6 +52,8 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
       stop("Please add the configuration file and registry values requiered for BatchJobs" , call. = FALSE)
     }
     
+    options(BatchJobs.clear.function.env = TRUE)
+    
     function_args <- list()
     fun <- estimate_saturation
     function_args <- list(aln = aln, nseqs = nseqs, model = model, all = all, 
@@ -66,7 +68,7 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
     
     BatchJobs::loadConfig(conf_file) 
     reg <- BatchJobs::makeRegistry(id=reg_id, file.dir=reg_dir)
-    id  <- BatchJobs::batchMap(reg, batch_function, iterations)
+    id  <- BatchJobs::batchMap(reg, fun = fun, more.args = function_args, iterations)
     estimate_submission <- BatchJobs::submitJobs(reg, resources=job_res)
     estimate_run <- BatchJobs::waitForJobs(reg, id)
     estimate_runs <- reduceResultsList(reg)

@@ -43,14 +43,14 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
       cat("Used all sequences\n\n")
     }
   }else{
-    rand_seqs <- random_sequences(aln = aln, nseqs = nseqs, seed = seed, verbose = verbose, ...)
+    rand_seqs <- oligo4fun::random_sequences(aln = aln, nseqs = nseqs, seed = seed, verbose = verbose, ...)
     if (verbose){
       cat(paste("Randomly selected", nseqs, "sequences\n\n"))
     }
   }
   
   if (!(all)) {
-    rand_seqs$aln <- get_3rd_codon(rand_seqs$aln)
+    rand_seqs$aln <- oligo4fun::get_3rd_codon(rand_seqs$aln)
     if (verbose){
       cat("Sequence alignment cointaining only the 3rd codon position\n")
     }
@@ -105,7 +105,7 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
   saturation <- mean(ti) > mean(tv)
   
   if (saturation){
-    aln_no_3rd <- remove_3rd_codon(aln)
+    aln_no_3rd <- oligo4fun::remove_3rd_codon(aln)
     if (verbose){
       cat("Results suggests that there is saturation\n")
       cat("Removing 3rd codon position to the alignment\n")
