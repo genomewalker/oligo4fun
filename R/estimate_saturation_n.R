@@ -27,7 +27,6 @@
 #'  \item{aln_no_3rd}{a DNAbin object containing the original alignment without the 3rd codon}
 #'  \item{combined_stats}{mean and standard deviation of transitions and transversions for each random subsampling}
 #'  \item{saturation}{whether your alignment presents saturation for each random subsampling}
-#'  \item{raw}{raw results for each random subsampling}
 #' }
 #' 
 #' 

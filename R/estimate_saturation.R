@@ -125,7 +125,6 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
       seed = rand_seqs$seed,
       stats = ti_tv_stats,
       all_codons = all,
-      ti_tv = dplyr::tbl_df(ti_tv),
       saturation = ifelse(saturation, "Results suggests that there is saturation.", "Results suggests that there is no saturation."),
       nseqs = nseqs
     )
@@ -162,9 +161,5 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
   }
   
   class(results)<-"oligodiag"
-  if (.rsamp){
-    rm(aln)
-    gc()
-  }
   return(results)
 }
