@@ -33,7 +33,7 @@ write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
         rand_aln <- random_sequences(aln = data$aln, seed = data$seed[[x]], nseqs = data$nseqs, verbose = FALSE)
         file_name <- paste(dir,"/saturation_test_alignment_seed", data$seed[[x]],"_", x, '_', date_analysis, ".fasta",sep = ""); 
         write.dna(rand_aln$aln, file = file_name, format = "fasta")
-      }, .parallel = F, .progress = plyr::progress_text(width = 80))
+      }, .parallel = F, .progress = plyr::progress_text(width = 80, char = "+"))
     }
   }else{
     if (no3rd){

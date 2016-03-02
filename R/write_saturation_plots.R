@@ -19,13 +19,15 @@ write_saturation_plots<-function(data, dir = NULL, format = "png", ...){
   date <-  format(Sys.time(), "%m%d%Y%H%M")
   
   if (length(data$seed) > 1){
-    write_plots <- lapply(1:length(data$seed), function(x){
+    cat("Saving saturation plots from multiple alignment random subsamplings\n")
+    write_plots <- plyr::llply(1:length(data$seed), function(x){
       file_name <- paste(dir, "/saturation_test_alignment_plot_seed", data$seed[[x]],"_",  x, "_", date, ".", format, sep = "")    
       .set_plot_format(format, file_name)
       print(data$plot[[x]])
       dev.off()
-    })
+    }, .parallel = F, .progress = plyr::progress_text(width = 80, char = "+"))
   }else{
+    cat("Saving saturation plot from the alignment random subsampling\n")
     file_name <- paste(dir, "/saturation_test_alignment_plot_seed", data$seed, "_", date, ".", format, sep = "")    
     .set_plot_format(format, file_name)
     print(data$plot)
