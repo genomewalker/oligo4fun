@@ -19,5 +19,5 @@ Imports:
     plyr,
     BatchJobs
 License: GPL-3
-LazyData: true
+LazyData: false
 RoxygenNote: 5.0.1
