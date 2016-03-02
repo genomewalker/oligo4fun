@@ -12,8 +12,12 @@
 #' @param reg_id Name of registry. Displayed e.g. in mails or in cluster queue
 #' @param reg_dir Path where files regarding the registry / jobs should be saved
 #' @param conf_file Location of the configuration file to load
+#' @param save_aln a logical whether to save the alignments used for the estimation
+#' @param dir path where the alignments should be saved
 #' @details You can calculate multiple saturation plots and its associated statistics. The different
 #' random subsamplings can be easily distributed over multiple cores or in a computer cluster.
+#' We recommend to set \emph{save_aln = FALSE} and use \code{\link{write_saturation_alignments}} instead.
+#' Writing the alignments to the disk can generate a high IO load in the parallel mode.
 #' 
 #' @return An object of class \dQuote{oligodiag} is a list containing at least the following components:  
 #' \describe{
