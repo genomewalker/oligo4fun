@@ -11,6 +11,7 @@
 #' @examples rand_seqs <- random_sequences(aln)
 #' @export
 random_sequences <-  function(aln = aln, nseqs = 1000, seed = 0, verbose = FALSE, ...){
+  is_inFrame(aln)
   aln_num_seqs <- dim(aln)[1]
   
   if (nseqs > aln_num_seqs){

@@ -16,6 +16,7 @@
 #' @examples entropy_plot <- plot_entropy_density(entropy)
 #' @export
 plot_entropy_density <- function(data, process = TRUE){
+  is_inFrame(data)
   process <- .check_entropy_df(data)
   if (process){
     data <- process_entropy_file(data)

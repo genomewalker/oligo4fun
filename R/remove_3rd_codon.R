@@ -2,5 +2,6 @@
 #' @param aln a sequence alignment 
 #' @export
 remove_3rd_codon <- function(aln, ...){
+  is_inFrame(aln)
   aln_1st_2nd<-aln[, -seq(0, ncol(aln), by=3)]
 }

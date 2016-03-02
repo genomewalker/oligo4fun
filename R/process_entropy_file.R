@@ -15,9 +15,9 @@
 #' @examples entropy_file <- process_entropy_file(entropy)
 #' @export
 process_entropy_file <- function(file = file){
+  is_inFrame(file)
   file <- file %>% 
     dplyr::rename(position = V1, entropy = V2) %>% 
     dplyr::arrange(position) %>% 
     dplyr::mutate(position = position + 1, codon = rep(c("1st", "2nd", "3rd"), dim(file)[1]/3)) 
 }
-

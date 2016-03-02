@@ -39,6 +39,8 @@ estimate_saturation_n<-function(aln = aln, rep = 100, nseqs = 1000, model = "K80
                                 all = FALSE, save_aln = FALSE, dir = NULL, reg_id = NULL, reg_dir = NULL, conf_file = NULL, 
                                 job_res = list(), keep_reg = TRUE, ...){
   
+  is_inFrame(aln)
+  
   if (rep < 2){
     stop("Please use estimate_saturation for only one random subsampling", call. = FALSE)
   }

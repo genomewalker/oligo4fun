@@ -28,6 +28,8 @@
 #' @export
 estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
                               seed = 0, save_aln = FALSE, dir = NULL, ...){
+  is_inFrame(aln)
+  
   if (is.null(dir)){
     dir <- getwd()
   }
@@ -37,8 +39,9 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
   
   aln_num_seqs <- dim(aln)[1]
   if (aln_num_seqs <= 1000) {
-    rand_seqs <- aln
-    seed <- NULL
+    rand_seqs <- list()
+    rand_seqs$aln <- aln
+    rand_seqs$seed <- NULL
     if (verbose){
       cat("Used all sequences\n\n")
     }
