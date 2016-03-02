@@ -26,7 +26,7 @@ write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
       cat("Saving original alignment without the 3rd codon position\n")
       file_name <- paste(dir,"/saturation_test_alignment_no3rd_", date_analysis, ".fasta",sep = ""); 
       write.dna(data$aln_no_3rd, file = file_name, format = "fasta")     
-      cat("Alignmet(s) written to", file_name, "\n")
+      cat("Alignment(s) written to", file_name, "\n")
     }else{
       cat("Saving random alignments used for the saturation estimation\n")
       write_alns <- plyr::llply(1:length(data$seed), function(x){
@@ -43,16 +43,16 @@ write_saturation_alignments<-function(data, dir = NULL, no3rd = FALSE, ...){
       cat("Saving original alignment without the 3rd codon position\n")
       file_name <- paste(dir,"/saturation_test_alignment_no3rd_", date_analysis, ".fasta",sep = ""); 
       write.dna(data$aln_no_3rd, file = file_name, format = "fasta")
-      cat("Alignmet(s) written to", file_name, "\n")
+      cat("Alignment(s) written to", file_name, "\n")
     }else{
       cat("Saving random alignment used for the saturation estimation\n")
       rand_aln <- random_sequences(aln = data$aln, seed = data$seed)
       file_name <- paste(dir,"/saturation_test_alignment_seed", data$seed,"_", date_analysis, ".fasta",sep = ""); 
       write.dna(rand_aln$aln, file = file_name, format = "fasta")
-      cat("Alignmet written to", file_name, "\n")
+      cat("Alignment written to", file_name, "\n")
     }
   }
   if (!(no3rd) & (length(data$seed) > 1)) {
-    cat("Alignmet(s) written to ", dir, "\n")
+    cat("Alignment(s) written to ", dir, "\n")
   }
 }
