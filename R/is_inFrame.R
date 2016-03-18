@@ -1,6 +1,6 @@
 #' @export
 is_inFrame <- function(X){
-  if ((class(X) != "DNAbin" && class(X) != "data.frame")  && class(X) != "matrix")){
+  if (class(X) != "DNAbin" && class(X) != "data.frame" && class(X) != "matrix"){
     stop(paste("Wrong class:", class(X),". Should be a DNAbin object for the alignment or a data.frame for the entropy", seqp = ""), call. = FALSE)
   }
   
