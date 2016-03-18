@@ -28,17 +28,13 @@
 #' @export
 estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
                               seed = 0, save_aln = FALSE, dir = NULL, ...){
-  require(ape)
   if (is.null(dir)){
     dir <- getwd()
   }
   
   args <- list(...)
-  .rsamp <- ifelse (".rsamp" %in% names(args), TRUE, FALSE)
   
-  if (.rsamp){
-    aln <- as.DNAbin(aln)
-  }
+  .rsamp <- ifelse (".rsamp" %in% names(args), TRUE, FALSE)
   
   is_inFrame(aln)
   
