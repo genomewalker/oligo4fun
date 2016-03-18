@@ -36,9 +36,12 @@ estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALS
   args <- list(...)
   .rsamp <- ifelse (".rsamp" %in% names(args), TRUE, FALSE)
   
-  if (!(.rsamp)){
-    is_inFrame(aln)
+  if (.rsamp){
+    aln <- as.DNAbin(aln)
   }
+  
+  is_inFrame(aln)
+  
   
   aln_num_seqs <- dim(aln)[1]
   if (aln_num_seqs <= 1000) {

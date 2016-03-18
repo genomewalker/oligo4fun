@@ -1,7 +1,7 @@
 #' @export
 is_inFrame <- function(X){
   if ((class(X) != "DNAbin" && class(X) != "data.frame")){
-    stop("Wrong class. Should be a DNAbin object for the alignment or a data.frame for the entropy", call. = FALSE)
+    stop(paste("Wrong class:", class(X),". Should be a DNAbin object for the alignment or a data.frame for the entropy", seqp = ""), call. = FALSE)
   }
   
   if (class(X) == "data.frame" & dim(X)[1] %% 3 != 0){
