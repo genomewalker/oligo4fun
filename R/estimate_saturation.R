@@ -28,7 +28,7 @@
 #' @export
 estimate_saturation<-function(aln = aln, nseqs = 1000, model = "K80", all = FALSE, verbose = TRUE, 
                               seed = 0, save_aln = FALSE, dir = NULL, ...){
-  
+  require(ape)
   if (is.null(dir)){
     dir <- getwd()
   }
