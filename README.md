@@ -19,3 +19,6 @@ install_github("genomewalker/oligo4fun")
 
 # Tutorial
 A detailed tutorial can be found [here](http://genomewalker.github.io/oligo4fun/tutorial/oligo4fun.html).
+
+# Citation
+Žure, M., Fernandez-Guerra, A., Munn, C. B., & Harder, J. (2016). Geographic distribution at subspecies resolution level: Closely related rhodopirellula species in european coastal sediments. The ISME Journal. [doi:10.1038/ismej.2016.12](http://www.nature.com/ismej/journal/vaop/ncurrent/abs/ismej2016123a.html)
